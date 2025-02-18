@@ -15,17 +15,49 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.teal,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Button(Colors.red, 'note1.wav'),
+              Button(Colors.orange, 'note2.wav'),
+              Button(Colors.yellow, 'note3.wav'),
+              Button(Colors.greenAccent, 'note4.wav'),
+              Button(Colors.green, 'note5.wav'),
+              Button(Colors.blueAccent, 'note6.wav'),
+              Button(Colors.indigoAccent, 'note7.wav')
+            ],
+          ),
         ),
-        body: TextButton(
-            onPressed: () {
-              final player = AudioPlayer();
-              player.play(AssetSource('note1.wav'));
-              print('i got clicked >>>>>>>>>>>>>>');
-            },
-            child: Text('click me')),
       ),
     );
+  }
+}
+
+class Button extends StatelessWidget {
+  final Color color;
+  final String audioFile;
+
+  Button(this.color, this.audioFile);
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(this.color),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.zero,
+            ))),
+        onPressed: () {
+          playSound();
+        },
+        child: Text(''),
+      ),
+    );
+  }
+
+  void playSound() {
+    final player = AudioPlayer();
+    player.play(AssetSource(this.audioFile));
   }
 }
